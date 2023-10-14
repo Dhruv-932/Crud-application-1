@@ -43,7 +43,7 @@ const NavBar = () => {
     <AppBar style={{ background: "#219C90" }}>
       <Toolbar>
         <DataSphereTab to="/" exact activeClassName="active-link">
-          Data Sphere
+         Data Sphere
         </DataSphereTab>
         <OtherTabs to="/all" activeClassName="active-link">
           All Users
