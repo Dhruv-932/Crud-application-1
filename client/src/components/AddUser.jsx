@@ -9,20 +9,30 @@ import {
   Button,
 } from "@mui/material";
 
-
 import { addUser } from "../services/api";
-
-
-import {useNavigate} from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 const Container = styled(FormGroup)`
   width: 50%;
-  margin: 5% auto 0 auto;
+  margin: 10% auto 0 auto;
+  padding: 20px;
+  background-color: #fff5e0; 
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  color: #333;
+
   & > div {
     margin-top: 20px;
   }
 `;
+
+const Heading = styled(Typography)`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333; 
+`;
+
 const defaultValue = {
   name: "",
   userName: "",
@@ -31,57 +41,27 @@ const defaultValue = {
 };
 
 const AddUser = () => {
-
-
-
   const [user, setUser] = useState(defaultValue);
-
-  
   const navigate = useNavigate();
-
-
-
-
-
-
 
   const onValueChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-
-
-
-
-
-
-
-
   const addUserDetails = async () => {
     await addUser(user);
-    navigate('/all');
+    navigate("/all");
   };
-  
-
-
-
-
-
-
-
-
-
-
 
   return (
     <Container>
-      <Typography variant="h4">Add User</Typography>
+      <Heading variant="h4">Add User</Heading>
       <FormControl>
         <InputLabel>Name</InputLabel>
         <Input onChange={(e) => onValueChange(e)} name="name" />
       </FormControl>
       <FormControl>
-        <InputLabel>UserName</InputLabel>
+        <InputLabel>Username</InputLabel>
         <Input onChange={(e) => onValueChange(e)} name="userName" />
       </FormControl>
       <FormControl>
@@ -92,8 +72,15 @@ const AddUser = () => {
         <InputLabel>Phone</InputLabel>
         <Input onChange={(e) => onValueChange(e)} name="phone" />
       </FormControl>
-      <FormControl>
-        <Button variant="contained" onClick={() => addUserDetails()}>
+      <FormControl style={{ marginTop: "20px" }}>
+        <Button
+          variant="contained"
+          onClick={() => addUserDetails()}
+          style={{
+            backgroundColor: "#219C90",
+            color: "white" ,
+          }}
+        >
           Add User
         </Button>
       </FormControl>

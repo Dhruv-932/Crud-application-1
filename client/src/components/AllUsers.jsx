@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHead,
@@ -8,34 +8,21 @@ import {
   styled,
   Button,
 } from "@mui/material";
-import { getUsers, deleteUser} from "../services/api.js";
-
-import {Link} from 'react-router-dom';
-
-
-
-
+import { getUsers, deleteUser } from "../services/api.js";
+import { Link } from "react-router-dom";
 
 const StyledTable = styled(Table)`
-width: 80%;
-margin:2% auto 0 auto;
+  width: 80%;
+  margin: 2% auto 0 auto;
 `;
-
-
-
-
 
 const StyledRow = styled(TableRow)`
-
-background: black;
-& > th { 
+  background: #f5e8b7;
+  & > th {
     font-size: 20px;
-    color:white;
-}
+    color: #6a9c89;
+  }
 `;
-
-
-
 
 const Tbody = styled(TableRow)`
   & > td {
@@ -43,51 +30,50 @@ const Tbody = styled(TableRow)`
   }
 `;
 
+const EditButton = styled(Button)`
+  margin-right: 5%;
+  background-color: #219c90;
+  color: white;
 
+  &:hover {
+    background-color: #0e6b53;
+  }
+`;
 
+const DeleteButton = styled(Button)`
+  background-color: #ff6f61;
+  color: white;
 
+  &:hover {
+    background-color: #d63c35;
+  }
+`;
+
+const styles = {
+  tableHead: {
+    marginTop: "160px",
+  },
+};
 
 const AllUsers = () => {
-
-
   const [users, setUsers] = useState([]);
-
-
-
-
 
   useEffect(() => {
     getAllUsers();
   }, []);
 
-
-
-
-
-
   const getAllUsers = async () => {
     let response = await getUsers();
     setUsers(response.data);
-    
   };
 
-
-  const deleteUserDetails = async(id)=> {
-
-      await deleteUser(id);
-      getAllUsers() ;
-
-
-    
-  }
-
-
-
-
-
+  const deleteUserDetails = async (id) => {
+    await deleteUser(id);
+    getAllUsers();
+  };
 
   return (
-    <StyledTable>
+    <StyledTable style={styles.tableHead}>
       <TableHead>
         <StyledRow>
           <TableCell>ID</TableCell>
@@ -99,7 +85,7 @@ const AllUsers = () => {
         </StyledRow>
       </TableHead>
       <TableBody>
-        {users.map((user,i) => (
+        {users.map((user, i) => (
           <Tbody key={i}>
             <TableCell>{user._id}</TableCell>
             <TableCell>{user.name}</TableCell>
@@ -107,17 +93,19 @@ const AllUsers = () => {
             <TableCell>{user.email}</TableCell>
             <TableCell>{user.phone}</TableCell>
             <TableCell>
-              <Button
+              <EditButton
                 variant="contained"
-                style={{ marginRight: "5%" }}
                 component={Link}
                 to={`/edit/${user._id}`}
               >
-                Edit 
-              </Button>
-              <Button variant="contained" color="secondary" onClick={()=>deleteUserDetails(user._id)}>
+                Edit
+              </EditButton>
+              <DeleteButton
+                variant="contained"
+                onClick={() => deleteUserDetails(user._id)}
+              >
                 Delete
-              </Button>
+              </DeleteButton>
             </TableCell>
           </Tbody>
         ))}

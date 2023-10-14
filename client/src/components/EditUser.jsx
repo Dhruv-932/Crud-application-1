@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   FormGroup,
@@ -9,26 +9,42 @@ import {
   Button,
 } from "@mui/material";
 
-
 import { editUser, getUser } from "../services/api";
-
-
 import { useNavigate, useParams } from "react-router-dom";
-
-
-
 
 const Container = styled(FormGroup)`
   width: 50%;
-  margin: 5% auto 0 auto;
+  margin: 10% auto 0 auto;
+  padding: 20px;
+  background-color: #fff5e0;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  color: #333;
+
   & > div {
     margin-top: 20px;
   }
 `;
 
+const Heading = styled(Typography)`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+`;
 
+const StyledButton = styled(Button)`
+  background-color: #219c90;
+  color: white;
 
+  &:hover {
+    background-color: #219c90;
+  }
+`;
 
+const FadedInputLabel = styled(InputLabel)`
+  color: #666; 
+`;
 
 const defaultValue = {
   name: "",
@@ -37,80 +53,68 @@ const defaultValue = {
   phone: "",
 };
 
-
-
-
 const EditUser = () => {
-
-
   const [user, setUser] = useState(defaultValue);
-
-
-
-
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const {id} = useParams();
-
-
-
-   useEffect(() => {
+  useEffect(() => {
     loadUserDetails();
-  
-  }, [])
+  }, []);
 
-
-  
-
-
-
-  const loadUserDetails = async() => {
+  const loadUserDetails = async () => {
     const response = await getUser(id);
     setUser(response.data);
-  }
-
-
-
+  };
 
   const onValueChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-
-
-
 
   const editUserDetails = async () => {
     await editUser(user, id);
     navigate("/all");
   };
 
-
-
-
-
   return (
     <Container>
-      <Typography variant="h4">Edit User</Typography>
+      <Heading variant="h4">Edit User</Heading>
       <FormControl>
-        <InputLabel>Name</InputLabel>
-        <Input onChange={(e) => onValueChange(e)} name="name" value={user.name} />
+        <FadedInputLabel>Name</FadedInputLabel>
+        <Input
+          onChange={(e) => onValueChange(e)}
+          name="name"
+          value={user.name}
+        />
       </FormControl>
       <FormControl>
-        <InputLabel>UserName</InputLabel>
-        <Input onChange={(e) => onValueChange(e)} name="userName" value={user.userName}/>
+        <FadedInputLabel>UserName</FadedInputLabel>
+        <Input
+          onChange={(e) => onValueChange(e)}
+          name="userName"
+          value={user.userName}
+        />
       </FormControl>
       <FormControl>
-        <InputLabel>Email</InputLabel>
-        <Input onChange={(e) => onValueChange(e)} name="email" value = {user.email}/>
+        <FadedInputLabel>Email</FadedInputLabel>
+        <Input
+          onChange={(e) => onValueChange(e)}
+          name="email"
+          value={user.email}
+        />
       </FormControl>
       <FormControl>
-        <InputLabel>Phone</InputLabel>
-        <Input onChange={(e) => onValueChange(e)} name="phone" value={user.phone}/>
+        <FadedInputLabel>Phone</FadedInputLabel>
+        <Input
+          onChange={(e) => onValueChange(e)}
+          name="phone"
+          value={user.phone}
+        />
       </FormControl>
       <FormControl>
-        <Button variant="contained" onClick={() => editUserDetails()}>
+        <StyledButton variant="contained" onClick={() => editUserDetails()}>
           Edit User
-        </Button>
+        </StyledButton>
       </FormControl>
     </Container>
   );
